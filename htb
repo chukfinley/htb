@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Check if the user has provided a command
+if [ "$#" -ne 1 ]; then
+    echo "Usage: htb [connect|disconnect]"
+    exit 1
+fi
+
+# Define the OpenVPN configuration file path
+CONFIG_FILE="/etc/htb/htb.ovpn"
+
+# Check if the command is "connect"
+if [ "$1" = "connect" ]; then
+    # Check if OpenVPN is already running
+    if pgrep -x "openvpn" > /dev/null; then
+        echo "OpenVPN is already running."
+        exit 1
+    fi
+
+    # Connect to the OpenVPN server in the background
+    echo "Connecting to OpenVPN..."
+    sudo openvpn --config $CONFIG_FILE &
+
+# Check if the command is "disconnect"
+elif [ "$1" = "disconnect" ]; then
+    # Check if OpenVPN is running
+    if ! pgrep -x "openvpn" > /dev/null; then
+        echo "OpenVPN is not running."
+        exit 1
+    fi
+
+    # Disconnect from the OpenVPN server
+    echo "Disconnecting from OpenVPN..."
+    sudo pkill -x "openvpn"
+else
+    echo "Invalid command. Use 'connect' or 'disconnect'."
+    exit 1
+fi
