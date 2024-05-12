@@ -13,14 +13,14 @@ sudo cp youropenvpnlocation /etc/thm/thm.ovpn
 
 Connect
 ```
-sudo thm connect
+sudo thm c
 ```
 Disconnect
 ```
-sudo thm disconenct
+sudo thm d
 ```
 Status shows output of the connect command
 ```
-sudo thm status
+sudo thm s
 ```
 
