@@ -2,52 +2,52 @@
 
 # Check if the user has provided a command
 if [ "$#" -ne 1 ]; then
-    echo "Usage: thm [connect|disconnect|status]"
+    echo "Usage: thm [c|d|s] c=connect, d=disconnect, s=status"
     exit 1
 fi
 
 # Define the OpenVPN configuration file path
 CONFIG_FILE="/etc/thm/thm.ovpn"
 
-# Check if the command is "connect"
-if [ "$1" = "connect" ]; then
+# Check if the command is "c"
+if [ "$1" = "c" ]; then
     # Check if OpenVPN is already running
     if pgrep -x "openvpn" > /dev/null; then
         echo "OpenVPN is already running."
         exit 1
     fi
 
-    # Connect to the OpenVPN server in a screen session
+    # c to the OpenVPN server in a screen session
     echo "Connecting to OpenVPN..."
     sudo screen -S thm -d -m openvpn --config $CONFIG_FILE --log-append /var/log/thm.log
 
-# Check if the command is "disconnect"
-elif [ "$1" = "disconnect" ]; then
+# Check if the command is "d"
+elif [ "$1" = "d" ]; then
     # Check if OpenVPN is running
     if ! pgrep -x "openvpn" > /dev/null; then
         echo "OpenVPN is not running."
         exit 1
     fi
 
-    # Disconnect from the OpenVPN server by killing the screen session
+    # d from the OpenVPN server by killing the screen session
     echo "Disconnecting from OpenVPN..."
     sudo screen -S thm -X quit
 
     # Delete the log file
     sudo rm /var/log/thm.log
 
-# Check if the command is "status"
-elif [ "$1" = "status" ]; then
+# Check if the command is "s"
+elif [ "$1" = "s" ]; then
     # Check if OpenVPN is running
     if ! pgrep -x "openvpn" > /dev/null; then
         echo "OpenVPN is not running."
         exit 1
     fi
 
-    # Show the status of the OpenVPN connection
-    echo "OpenVPN status:"
+    # Show the s of the OpenVPN cion
+    echo "OpenVPN Status:"
     sudo more /var/log/thm.log
 else
-    echo "Invalid command. Use 'connect', 'disconnect', or 'status'."
+    echo "Invalid command. Use 'c', 'd', or 's'. c=connect, d=disconnect, s=status"
     exit 1
 fi
