@@ -1,21 +1,26 @@
-# htb
+# thm
 a cli client to connect to Hack the box or other openvpn
 
 ### Instalation
 ```
-sudo wget https://raw.githubusercontent.com/chukfinley/htb/main/htb -O /usr/bin/htb
-sudo chmod +x /usr/bin/htb
-sudo mkdir -p /etc/htb/
-sudo cp youropenvpnlocation /etc/htb/htb.ovpn
+sudo wget https://raw.githubusercontent.com/chukfinley/htb/main/thm -O /usr/bin/thm
+sudo chmod +x /usr/bin/thm
+sudo mkdir -p /etc/thm/
+sudo cp youropenvpnlocation /etc/thm/thm.ovpn
 ```
 
 ### Usage
 
 Connect
 ```
-sudo htb connect
+sudo thm connect
 ```
 Disconnect
 ```
-sudo htb disconenct
+sudo thm disconenct
 ```
+Status shows output of the connect command
+```
+sudo thm status
+```
+
