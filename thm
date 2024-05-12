@@ -2,7 +2,7 @@
 
 # Check if the user has provided a command
 if [ "$#" -ne 1 ]; then
-    echo "Usage: thm [connect|disconnect]"
+    echo "Usage: thm [connect|disconnect|status]"
     exit 1
 fi
 
@@ -17,9 +17,9 @@ if [ "$1" = "connect" ]; then
         exit 1
     fi
 
-    # Connect to the OpenVPN server in the background
+    # Connect to the OpenVPN server in a screen session
     echo "Connecting to OpenVPN..."
-    sudo openvpn --config $CONFIG_FILE &
+    sudo screen -S thm -d -m openvpn --config $CONFIG_FILE --log-append /var/log/thm.log
 
 # Check if the command is "disconnect"
 elif [ "$1" = "disconnect" ]; then
@@ -29,10 +29,25 @@ elif [ "$1" = "disconnect" ]; then
         exit 1
     fi
 
-    # Disconnect from the OpenVPN server
+    # Disconnect from the OpenVPN server by killing the screen session
     echo "Disconnecting from OpenVPN..."
-    sudo pkill -x "openvpn"
+    sudo screen -S thm -X quit
+
+    # Delete the log file
+    sudo rm /var/log/thm.log
+
+# Check if the command is "status"
+elif [ "$1" = "status" ]; then
+    # Check if OpenVPN is running
+    if ! pgrep -x "openvpn" > /dev/null; then
+        echo "OpenVPN is not running."
+        exit 1
+    fi
+
+    # Show the status of the OpenVPN connection
+    echo "OpenVPN status:"
+    sudo more /var/log/thm.log
 else
-    echo "Invalid command. Use 'connect' or 'disconnect'."
+    echo "Invalid command. Use 'connect', 'disconnect', or 'status'."
     exit 1
 fi
