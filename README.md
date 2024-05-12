@@ -1,5 +1,5 @@
 # thm
-a cli client to connect to TryHackme via openvpn
+a cli client to connect to TryHackMe via openvpn
 
 ### Instalation
 ```
