@@ -2,12 +2,12 @@
 
 # Check if the user has provided a command
 if [ "$#" -ne 1 ]; then
-    echo "Usage: htb [connect|disconnect]"
+    echo "Usage: thm [connect|disconnect]"
     exit 1
 fi
 
 # Define the OpenVPN configuration file path
-CONFIG_FILE="/etc/htb/htb.ovpn"
+CONFIG_FILE="/etc/thm/thm.ovpn"
 
 # Check if the command is "connect"
 if [ "$1" = "connect" ]; then
